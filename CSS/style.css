@@ -1,0 +1,70 @@
+/* === Shared Styles === */
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1f1c2c 0%, #928dab 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  color: #fff;
+}
+
+/* Glass-card base (sin efecto hover de movimiento) */
+.glass-card {
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(12px);
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  /* transition: transform 0.3s ease;  Removed movement on hover */
+}
+
+/* Logo */
+.logo {
+  display: block;
+  margin: 0 auto 1.5rem;
+  max-width: 70px;
+}
+
+/* Form Inputs */
+.form-floating .form-control {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  color: #fff;
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+.form-floating .form-control:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+.form-floating .form-control:focus {
+  background: rgba(255, 255, 255, 0.30);
+  border-color: #ff7f32;
+  box-shadow: 0 0 0 0.25rem rgba(255, 127, 50, 0.25);
+  color: #fff;
+}
+.form-floating label {
+  color: rgba(224, 224, 224, 0.9);
+  transition: color 0.3s;
+}
+.form-floating .form-control:focus + label {
+  color: #ff7f32;
+}
+
+/* Buttons */
+.btn-custom {
+  width: 100%;
+  padding: .75rem;
+  background-color: #ff7f32;
+  border: none;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  color: #fff;               /* Texto en blanco */
+  transition: background 0.3s, transform 0.2s;
+}
+.btn-custom:hover {
+  background-color: #e6762a;
+  transform: translateY(-1px);
+}
