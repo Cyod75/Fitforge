@@ -11,7 +11,7 @@ $usuariosBD = $mysql->query($query);
 
 if($usuariosBD->num_rows == 1){
     $_SESSION['usuario'] = $usuario;
-    header('location:../APP/privada.php');
+    header('location:../APP/inicio.php');
 }else{
     header('location:login.php');
 }

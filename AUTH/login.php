@@ -2,7 +2,7 @@
 session_start();
 $mysql = new mysqli("localhost", "root", "garrapata", "fitforge");
 if (isset($_SESSION['usuario'])) {
-  header('Location:../APP/privada.php');
+  header('Location:../APP/inicio.php');
   exit;
 }
 //Comprobar Conexion MYSQL
