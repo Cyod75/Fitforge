@@ -1,0 +1,89 @@
+body {
+    background: linear-gradient(135deg, #1e1e2f, #12121c);
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .sidebar {
+    width: 220px;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    padding: 2rem 1rem;
+    position: fixed;
+    left: 0;
+    top: 0;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .sidebar a {
+    display: block;
+    color: #fff;
+    margin-bottom: 1.2rem;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .sidebar a:hover {
+    color: #ff7f32;
+  }
+
+  .main-content {
+    margin-left: 240px;
+    padding: 2rem;
+  }
+
+  .glass-card {
+    background: rgba(255,255,255,0.07);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    transition: transform 0.2s ease;
+    height: 100%;
+  }
+
+  .glass-card:hover {
+    transform: scale(1.02);
+  }
+
+  .glass-card i {
+    font-size: 2rem;
+    color: #ff7f32;
+  }
+
+  .welcome {
+    font-size: 1.9rem;
+    font-weight: 600;
+    margin-bottom: 2rem;
+  }
+
+  .row > div {
+    margin-bottom: 1.5rem;
+  }
+
+  .highlight {
+    color: #ff7f32;
+  }
+
+  .icono-derecha {
+  font-size: 2rem;
+  color: #ffffff;
+  margin-left: 1rem;
+}
+
+.welcome_rutina {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.9rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+
+.sidebar a.active {
+    color: #ff7f32;
+  }
+  
