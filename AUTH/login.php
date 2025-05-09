@@ -1,6 +1,6 @@
 <?php
 session_start();
-$mysql = new mysqli("localhost", "root", "garrapata", "fitforge");
+$mysql = new mysqli("localhost:3307", "root", "majada", "fitforge");
 if (isset($_SESSION['usuario'])) {
   header('Location:../APP/inicio.php');
   exit;

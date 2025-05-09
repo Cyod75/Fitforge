@@ -4,7 +4,7 @@ session_start();
 $usuario = $_POST['usuario'];
 $password = $_POST['contraseña'];
 
-$mysql = new mysqli('localhost','root','garrapata','fitforge');
+$mysql = new mysqli("localhost:3307", "root", "majada", "fitforge");
 
 $query ="SELECT * FROM usuarios WHERE nombre='$usuario' and clave='$password'";
 $usuariosBD = $mysql->query($query);

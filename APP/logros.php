@@ -24,42 +24,21 @@ if (!isset($_SESSION['usuario'])) {
   <div class="sidebar">
     <h4 class="text-center">FitForge</h4>
     <a href="inicio.php"><i class="bi bi-house-door-fill"></i> Inicio</a>
-    <a href="rutinas.php" class="active"><i class="bi bi-list-check"></i> Rutinas</a>
+    <a href="rutinas.php"><i class="bi bi-list-check"></i> Rutinas</a>
     <a href="alimentacion.php"><i class="bi bi-egg-fried"></i> Alimentación</a>
     <a href="progreso.php"><i class="bi bi-bar-chart-fill"></i> Progreso</a>
-    <a href="logros.php"><i class="bi bi-trophy-fill"></i> Logros</a>
+    <a href="logros.php" class="active"><i class="bi bi-trophy-fill"></i> Logros</a>
     <a href='../AUTH/logout.php'><i class="bi bi-door-closed"></i> Salir</a>
   </div>
 
 
   <div class="main-content">
     <div class="welcomeRutina">
-      <span>A tope con tu <span class="highlight">Rutina</span>!</span>
-      <button type="button" class="bi bi-plus-circle icono-derecha " data-bs-toggle="modal" data-bs-target="#exampleModal"></button>
+      <span>A tope con tus <span class="highlight">Logros</span>!</span>
     </div>
 
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content glass-card">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" style="color: white;" id="exampleModalLabel">Crea tu Rutina</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body" style="color: white;">
-            ...
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Guardar</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="row">
+    <!-- <div class="row">
       <div>
         <div class="glass-card">
           <h5><i class="bi bi-calendar2-check"></i> Lunes</h5>
@@ -109,7 +88,7 @@ if (!isset($_SESSION['usuario'])) {
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
