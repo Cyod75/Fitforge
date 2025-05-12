@@ -46,6 +46,7 @@ body {
   box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important;
   transition: transform 0.2s ease !important;
   height: 100% !important;
+  position: relative !important;
 }
 
 .azulado{
@@ -90,10 +91,8 @@ body {
   font-size: 2rem !important;
   color: #ffffff !important;
   margin-left: 1rem !important;
-
   background: none !important;
   border: none !important;
-  padding: 0 !important;
   outline: none !important;
   box-shadow: none !important;
   cursor: pointer !important;
@@ -102,4 +101,22 @@ body {
 .btn-close{
 background-color: white !important;
 border-radius: 25px !important;
+}
+
+/* Borde */
+.form-select:focus {
+  border-color: #ff7f32 !important;
+  box-shadow: 0 0 0 .25rem rgba(255,127,50,.25) !important;
+}
+
+/* Botón guardar naranja */
+.btn-guardar {
+  background-color: #ff7f32 !important;
+  border-color: #ff7f32 !important;
+  color: #fff !important;
+}
+.btn-guardar:hover,.btn-guardar:focus {
+  background-color: #e66b2a !important;
+  border-color: #e66b2a !important;
+  color: #fff !important;
 }
