@@ -1,29 +1,33 @@
 <?php
-$mysql = new mysqli("localhost:3307", "root", "majada", "fitforge");
-
-$opcion = $_GET["opcion"] ?? null;
-
-if ($opcion == "eliminar") {
-    $usuarioId = $_GET["usuario_id"];
-    $diaSemana = $_GET["dia_semana"];
-    $ejercicioId = $_GET["ejercicio_id"];
-
-    $mysql->query("DELETE FROM rutinas WHERE usuario_id=$usuarioId AND dia_semana='$diaSemana' AND ejercicio_id=$ejercicioId");
-
-} else if ($opcion == "insertar") {
-    $usuarioId = $_POST["usuario_id"];
-    $diaSemana = $_POST["dia_semana"];
-    $ejercicioId = $_POST["ejercicio_id"];
-    $intensidad = $_POST["intensidad"];
-
-    $mysql->query("INSERT INTO rutinas (usuario_id, dia_semana, ejercicio_id, intensidad) VALUES ($usuarioId, '$diaSemana', $ejercicioId, '$intensidad')");
-
-} else if ($opcion == "obtener_usuario_id") {
-    $usuarioNombre = $_GET["usuario_nombre"];
-    $resultado = $mysql->query("SELECT id FROM usuarios WHERE nombre = '$usuarioNombre'");
-    $usuario = $resultado->fetch_assoc();
-    echo $usuario['id'] ?? 0;
+// Conexión directa
+$mysql = new mysqli("localhost", "root", "garrapata", "fitforge");
+if ($mysql->connect_error) {
+    die("Error de conexión: " . $mysql->connect_error);
 }
 
+// Determina la operación
+$opcion = $_GET['opcion'] ?? '';
+
+if ($opcion === 'insertar') {
+    // Inserta una nueva rutina
+    $usuario_id   = $_POST['usuario_id'];
+    $dia_semana   = $_POST['dia_semana'];
+    $ejercicio_id = $_POST['ejercicio_id'];
+    $intensidad   = $_POST['intensidad'];
+
+    $query = "
+      INSERT INTO rutinas (usuario_id, dia_semana, ejercicio_id, intensidad)
+      VALUES ($usuario_id, '$dia_semana', $ejercicio_id, '$intensidad')
+    ";
+    $mysql->query($query);
+
+} elseif ($opcion === 'eliminar') {
+    // Borra por ID único de rutina
+    $id = $_GET['id'];
+    $mysql->query("DELETE FROM rutinas WHERE id = $id");
+
+}
+
+// Después de la operación, vuelve a rutinas.php
+header("Location: ../APP/rutinas.php");
 $mysql->close();
-?>

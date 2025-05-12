@@ -5,42 +5,49 @@ if (!isset($_SESSION['usuario'])) {
     die();
 }
 
-require_once '../FUNCIONES/funciones_rutinas.php';
-
-$conexion = conectarDB();
-$nombre_usuario = $_SESSION['usuario'];
-$id_usuario = obtenerUsuarioId($conexion, $nombre_usuario);
-
-if (!$id_usuario) {
-    die("Error: No se pudo obtener el ID del usuario.");
+// Conexión directa
+$mysql = new mysqli("localhost", "root", "garrapata", "fitforge");
+if ($mysql->connect_error) {
+    die("Error de conexión: " . $mysql->connect_error);
 }
 
-// Procesar formulario
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion'])) {
-    if ($_POST['accion'] === 'insertar'
-     && isset($_POST['dia_semana'], $_POST['ejercicio_id'], $_POST['intensidad'])) {
-        insertarRutina(
-            $conexion,
-            $id_usuario,
-            $_POST['dia_semana'],
-            (int)$_POST['ejercicio_id'],
-            $_POST['intensidad']
-        );
-    }
-    if ($_POST['accion'] === 'eliminar'
-     && isset($_POST['dia_semana'], $_POST['ejercicio_id'])) {
-        eliminarRutina(
-            $conexion,
-            $id_usuario,
-            $_POST['dia_semana'],
-            (int)$_POST['ejercicio_id']
-        );
-    }
+// Obtener ID de usuario
+$usuario = $mysql->real_escape_string($_SESSION['usuario']);
+$res = $mysql->query("SELECT id FROM usuarios WHERE nombre = '$usuario'");
+$row  = $res->fetch_assoc();
+$id_usuario = $row['id'] ?? die("Error: Usuario no encontrado.");
+
+// Cargar lista de ejercicios
+$lista_ejercicios = [];
+$res = $mysql->query("SELECT id, nombre FROM ejercicios");
+while ($r = $res->fetch_assoc()) {
+    $lista_ejercicios[] = $r;
 }
 
-$lista_ejercicios = cargarEjercicios($conexion);
-list($rutinas_por_dia, $ejercicios_unicos, $total_rutinas) = cargarRutinasPorDia($conexion, $id_usuario);
+// Cargar rutinas por día
+$rutinas_por_dia = [];
+$ejercicios_unicos = [];
+$sql = "
+  SELECT r.id AS rutina_id, r.dia_semana, e.nombre AS ejercicio, r.intensidad
+    FROM rutinas r
+    JOIN ejercicios e ON r.ejercicio_id = e.id
+   WHERE r.usuario_id = $id_usuario
+";
+$res = $mysql->query($sql);
+while ($r = $res->fetch_assoc()) {
+    $rutinas_por_dia[$r['dia_semana']][] = $r;
+    $ejercicios_unicos[$r['rutina_id']]  = true;
+}
+
 $dias = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+
+// Calcular cuántos días tienen al menos un ejercicio
+$dias_con_ejercicios = 0;
+foreach ($dias as $d) {
+    if (!empty($rutinas_por_dia[$d])) {
+        $dias_con_ejercicios++;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -85,16 +92,14 @@ $dias = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
             <ul>
               <?php foreach ($rutinas_por_dia[$dia_semana] as $rutina): ?>
               <li>
-                <?= htmlspecialchars($rutina['ejercicio']) ?> 
-                <strong><?= htmlspecialchars($rutina['intensidad']) ?></strong>
-                <form method="POST" class="d-inline">
-                  <input type="hidden" name="accion" value="eliminar">
-                  <input type="hidden" name="dia_semana" value="<?= $dia_semana ?>">
-                  <input type="hidden" name="ejercicio_id" value="<?= $rutina['ejercicio_id'] ?>">
-                  <button type="submit" class="btn btn-link p-0 text-danger">
-                    <i class="bi bi-x"></i>
-                  </button>
-                </form>
+                <?= $rutina['ejercicio'] ?> 
+                <strong><?= $rutina['intensidad'] ?></strong>
+                <a
+                  href="../FUNCIONES/rutinas_sql.php?opcion=eliminar&id=<?= $rutina['rutina_id'] ?>"
+                  class="btn btn-link p-0 text-danger"
+                >
+                  <i class="bi bi-x"></i>
+                </a>
               </li>
               <?php endforeach; ?>
             </ul>
@@ -108,7 +113,7 @@ $dias = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
       <?php
       $resto = count($dias) % 3;
       if ($resto !== 0):
-        for ($i = 0, $falt = 3 - $resto; $i < $falt; $i++):
+        for ($i = 0, $faltan = 3 - $resto; $i < $faltan; $i++):
           echo '<div class="col"></div>';
         endfor;
       endif;
@@ -117,7 +122,7 @@ $dias = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
 
     <div class="glass-card mt-5">
       <h4><i class="bi bi-graph-up"></i> Resumen de la Semana</h4>
-      <p>Total de rutinas: <strong><?= $total_rutinas ?></strong></p>
+      <p>Días con ejercicios: <strong><?= $dias_con_ejercicios ?></strong></p>
       <p>Ejercicios distintos: <strong><?= count($ejercicios_unicos) ?></strong></p>
     </div>
   </div>
@@ -126,7 +131,8 @@ $dias = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
   <div class="modal fade" id="modalRutina" tabindex="-1" aria-labelledby="modalRutinaLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content glass-card">
-        <form method="POST" action="">
+
+        <form method="POST" action="../FUNCIONES/rutinas_sql.php?opcion=insertar">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="modalRutinaLabel" style="color:white">
               Agregar Rutina
@@ -134,14 +140,14 @@ $dias = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body" style="color:white">
-            <input type="hidden" name="accion" value="insertar">
+            <input type="hidden" name="usuario_id" value="<?= $id_usuario ?>">
             <input type="hidden" name="dia_semana" id="diaSemanaInput">
             <div class="mb-3">
               <label for="ejercicio" class="form-label">Ejercicio</label>
               <select name="ejercicio_id" id="ejercicio" class="form-select" required>
                 <?php foreach ($lista_ejercicios as $ej): ?>
                 <option value="<?= $ej['id'] ?>">
-                  <?= htmlspecialchars($ej['nombre']) ?>
+                  <?= $ej['nombre'] ?>
                 </option>
                 <?php endforeach; ?>
               </select>
@@ -166,6 +172,7 @@ $dias = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
             </button>
           </div>
         </form>
+        
       </div>
     </div>
   </div>
