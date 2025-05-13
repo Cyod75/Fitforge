@@ -53,8 +53,7 @@ CREATE TABLE favoritos_alimentos (
 
 -- Insertar datos
 INSERT INTO usuarios (nombre, correo, clave, rol) VALUES
-('admin', 'admin@gymapp.com', 'admin', 'Admin'),
-('jordi', 'jordi@gymapp.com', '1234', 'Usuario');
+('admin', 'admin@gymapp.com', '$2y$10$jzGQA/udLnQzaI.npeSCo.4fLgc9VxjEeXrPO0rtMyZvVF1aAnpla', 'Admin');
 
 INSERT INTO ejercicios (nombre, descripcion) VALUES
 ('Flexiones', 'Flexiones de brazos en el suelo'),
@@ -93,4 +92,5 @@ INSERT INTO alimentos (categoria, nombre, calorias, proteina, carbohidratos, gra
 ('Medio en calorías', 'Pan integral', 250, 12.0, 41.0, 4.5),
 ('Alto en calorías', 'Almendras', 579, 21.0, 22.0, 50.0);
 
-SELECT * FROM rutinas;
+use fitforge;
+SELECT * FROM usuarios;	

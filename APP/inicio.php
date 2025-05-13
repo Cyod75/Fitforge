@@ -33,7 +33,11 @@ if (!isset($_SESSION['usuario'])) {
 
 
   <div class="main-content">
-    <div class="welcome">Hola, <span class="highlight"><?php echo $_SESSION['usuario']; ?></span> 👋<br>¡Bienvenido de nuevo a <span class="highlight">FitForge</span>!</div>
+    <div class="welcome">
+      Hola, <span class="highlight"><?php echo ucfirst(strtolower($_SESSION['usuario'])); ?></span> 👋<br>
+      ¡Bienvenido de nuevo a <span class="highlight">FitForge</span>!
+    </div>
+
 
     <div class="row row-cols-1 row-cols-md-2 g-4">
 

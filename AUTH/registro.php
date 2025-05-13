@@ -1,14 +1,20 @@
 <?php
 session_start();
 $mysql = new mysqli("localhost", "root", "garrapata", "fitforge");
+
 if (isset($_SESSION['usuario'])) {
   header('Location:../APP/inicio.php');
   exit;
 }
-//Comprobar Conexion MYSQL
+
+// Comprobar Conexión MySQL
 if ($mysql->connect_error) {
   die("Conexión fallida: " . $mysql->connect_error);
 }
+
+// Recuperar el mensaje de error de la sesión si existe
+$error = isset($_SESSION['error']) ? $_SESSION['error'] : '';
+unset($_SESSION['error']);  // Borrar el error después de mostrarlo
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +22,7 @@ if ($mysql->connect_error) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Iniciar Sesión - FitForge</title>
+  <title>Registro - FitForge</title>
   <link href="../CSS/bootstrap.css" rel="stylesheet">
   <link href="../CSS/style.css" rel="stylesheet">
 </head>
@@ -26,14 +32,18 @@ if ($mysql->connect_error) {
     <img src="../IMG/logo.png" alt="FitForge Logo" class="logo">
     <h2 class="text-center mb-4">Crea tu Cuenta de FitForge</h2>
 
-    <form action="checkLogin.php" method="POST">
+    <?php if (!empty($error)): ?>
+      <div class="alert-error"><?= $error ?></div>
+    <?php endif; ?>
+
+    <form action="checkRegistro.php" method="POST">
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Usuario" required>
+        <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Usuario" required value="<?= htmlspecialchars($usuario ?? '') ?>">
         <label for="usuario">Usuario</label>
       </div>
 
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="correo" name="correo" placeholder="Correo" required>
+        <input type="text" class="form-control" id="correo" name="correo" placeholder="Correo" required value="<?= htmlspecialchars($correo ?? '') ?>">
         <label for="correo">Correo</label>
       </div>
 
@@ -43,11 +53,11 @@ if ($mysql->connect_error) {
       </div>
 
       <div class="form-floating mb-4">
-        <input type="password" class="form-control" id="contraseña2" name="contraseña2" placeholder="Contraseña" required>
+        <input type="password" class="form-control" id="contraseña2" name="contraseña2" placeholder="Confirmar Contraseña" required>
         <label for="contraseña2">Confirmar Contraseña</label>
       </div>
 
-      <button type="submit" class="btn btn-custom text-white  ">Crear Cuenta</button>
+      <button type="submit" class="btn btn-custom text-white">Crear Cuenta</button>
     </form>
     
     <p class="text-center mb-0">
