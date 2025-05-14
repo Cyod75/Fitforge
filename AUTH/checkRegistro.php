@@ -6,8 +6,8 @@ if ($mysql->connect_error) {
     die("Conexión fallida: " . $mysql->connect_error);
 }
 
-$usuario    = trim($_POST['usuario'] ?? '');
-$correo     = trim($_POST['correo'] ?? '');
+$usuario = trim($_POST['usuario'] ?? '');
+$correo = trim($_POST['correo'] ?? '');
 $contraseña = $_POST['contraseña'] ?? '';
 $contraseña2 = $_POST['contraseña2'] ?? '';
 

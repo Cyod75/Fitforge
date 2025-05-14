@@ -6,7 +6,6 @@ if (isset($_SESSION['usuario'])) {
   exit;
 }
 
-//Comprobar Conexion MYSQL
 if ($mysql->connect_error) {
   die("Conexión fallida: " . $mysql->connect_error);
 }
@@ -40,7 +39,7 @@ if (isset($_GET['error']) && $_GET['error'] == 1) {
 
     <form action="checkLogin.php" method="POST">
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Usuario" required value="<?= htmlspecialchars($_POST['usuario'] ?? '') ?>">
+        <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Usuario" required value="<?php echo $_POST['usuario'] ?? '' ?>">
         <label for="usuario">Usuario</label>
       </div>
       <div class="form-floating mb-4">

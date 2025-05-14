@@ -51,6 +51,21 @@ CREATE TABLE favoritos_alimentos (
   FOREIGN KEY (alimento_id) REFERENCES alimentos(id)
 );
 
+CREATE TABLE progreso_fisico (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  usuario_id INT,
+  fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  peso DECIMAL(5,2),
+  altura DECIMAL(4,2),
+  biceps DECIMAL(5,2),
+  pecho DECIMAL(5,2),
+  cintura DECIMAL(5,2),
+  pierna DECIMAL(5,2),
+  imc DECIMAL(5,2),
+  FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);
+
+
 -- Insertar datos
 INSERT INTO usuarios (nombre, correo, clave, rol) VALUES
 ('admin', 'admin@gymapp.com', '$2y$10$jzGQA/udLnQzaI.npeSCo.4fLgc9VxjEeXrPO0rtMyZvVF1aAnpla', 'Admin');

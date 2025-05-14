@@ -122,8 +122,8 @@ foreach ($dias as $d) {
 
     <div class="glass-card mt-5">
       <h4><i class="bi bi-graph-up"></i> Resumen de la Semana</h4>
-      <p>Días con ejercicios: <strong><?= $dias_con_ejercicios ?></strong></p>
-      <p>Ejercicios distintos: <strong><?= count($ejercicios_unicos) ?></strong></p>
+      <p>Días con Ejercicios: <strong><?= $dias_con_ejercicios ?></strong></p>
+      <p>Ejercicios en Rutina: <strong><?= count($ejercicios_unicos) ?></strong></p>
     </div>
   </div>
 

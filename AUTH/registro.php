@@ -43,7 +43,7 @@ unset($_SESSION['error']);  // Borrar el error después de mostrarlo
       </div>
 
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="correo" name="correo" placeholder="Correo" required value="<?= htmlspecialchars($correo ?? '') ?>">
+        <input type="text" class="form-control" id="correo" name="correo" placeholder="Correo" required value="<?php echo $usuario ?? '' ?>"">
         <label for="correo">Correo</label>
       </div>
 
